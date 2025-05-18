@@ -11,18 +11,19 @@ phases:
 
   build:
     commands:
-      - echo Building the Docker image...
+      - echo Building Docker image...
       - docker build -t $REPO_URI:$IMAGE_TAG .
 
   post_build:
     commands:
-      - echo Pushing the Docker image to ECR...
+      - echo Pushing image to ECR...
       - docker push $REPO_URI:$IMAGE_TAG
-      - echo Writing image definitions file...
+      - echo Creating imagedefinitions.json...
       - printf '[{"name":"webapp-container","imageUri":"%s"}]' $REPO_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
     - imagedefinitions.json
+
 
 
